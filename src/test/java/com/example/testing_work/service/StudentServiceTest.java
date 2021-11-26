@@ -60,7 +60,15 @@ public class StudentServiceTest {
         assertTrue(updatedStudent.getStatusCode().is2xxSuccessful());
     }
 
+    @Test
+    public void updateStudent_404(){
+        UpdateStudentDto dto = new UpdateStudentDto("Miley","Cyrus","miley@gmail.com");
+        when(studentRepositoryMock.findById(104)).thenReturn(Optional.empty());
 
+        ResponseEntity<?> updatedStudent = studentService.updateStudent(104,dto);
+        assertEquals(404, updatedStudent.getStatusCodeValue());
+
+    }
 
 
 }
