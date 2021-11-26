@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -27,5 +28,13 @@ public class StudentServiceTest {
                 .thenReturn(Arrays.asList(new Student(1,"MANZI","Mike","mike@gmail.com"),
                         new Student(2,"Taylor","Swift","tswift@gmail.com")));
         assertEquals("MANZI",studentService.getAll().get(0).getFirstName());
+    }
+
+    @Test
+    public void getStudentById(){
+        when(studentRepository.findById(1))
+                .thenReturn(Optional.of(new Student(1, "MANZI", "Mike", "mike@gmail.com")));
+
+        assertEquals("Mike",studentService.getById(1).getLastName());
     }
 }
