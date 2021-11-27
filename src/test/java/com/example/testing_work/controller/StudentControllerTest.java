@@ -66,7 +66,6 @@ public class StudentControllerTest {
 
     @Test
     public void getOne_404() throws Exception{
-        Student student = new Student(1, "MANZI", "Mike", "mike@gmail.com");
         when(studentServiceMock.getById(1)).thenReturn(null);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -79,6 +78,11 @@ public class StudentControllerTest {
                 //.andExpect(content().string(""))
                 .andExpect(content().json("{\"status\":false,\"message\":\"Student not found\"}"))
                 .andReturn();
+    }
+
+    @Test
+    public void updateStudent_success(){
+
     }
 
 }
