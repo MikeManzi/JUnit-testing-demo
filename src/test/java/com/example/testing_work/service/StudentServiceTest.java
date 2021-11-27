@@ -88,6 +88,13 @@ public class StudentServiceTest {
         assertEquals(200, deletedStudent.getStatusCodeValue());
     }
 
+    @Test
+    public void delete_404(){
+        when(studentRepositoryMock.findById(104)).thenReturn(Optional.empty());
+        ResponseEntity<?> deletedStudent = studentService.deleteStudent(104);
+        assertEquals(404,deletedStudent.getStatusCodeValue());
+    }
+
 
 
 
