@@ -57,7 +57,7 @@ public class StudentService {
         if(findById.isPresent()){
             studentRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new APIResponse(true,"Item was deleted"));
+                    .body(new APIResponse(true,"Student was deleted"));
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

@@ -78,8 +78,17 @@ public class StudentServiceTest {
         ResponseEntity<?> updatedStudent = studentService.updateStudent(104,dto);
         assertEquals(404,updatedStudent.getStatusCodeValue());
 
-
     }
+
+    @Test
+    public void delete_success(){
+        Student student = new Student(104,"Ava","Max","avamax@gmail.com");
+        when(studentRepositoryMock.findById(104)).thenReturn(Optional.of(student));
+        ResponseEntity<?> deletedStudent = studentService.deleteStudent(104);
+        assertEquals(200, deletedStudent.getStatusCodeValue());
+    }
+
+
 
 
 }
