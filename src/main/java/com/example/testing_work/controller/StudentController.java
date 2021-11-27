@@ -2,8 +2,6 @@ package com.example.testing_work.controller;
 
 import com.example.testing_work.dto.UpdateStudentDto;
 import com.example.testing_work.model.Student;
-
-import com.example.testing_work.repository.StudentRepository;
 import com.example.testing_work.service.StudentService;
 import com.example.testing_work.utils.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,8 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @Autowired
-    StudentRepository studentRepository;
+//    @Autowired
+//    StudentRepository studentRepository;
 
    @GetMapping("/all")
     public List<Student> getAll(){
@@ -39,11 +37,6 @@ public class StudentController {
 
    @PostMapping("/new")
     public ResponseEntity<?> saveStudent(@Valid Student student){
-       if(studentRepository.existsByEmail(student.getEmail())){
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                   .body(new APIResponse(false, "Student already registered"));
-       }
-
        return studentService.addStudent(student);
    }
 
