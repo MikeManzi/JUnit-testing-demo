@@ -48,4 +48,20 @@ public class StudentControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void getOne_success() throws Exception {
+        Student student = new Student(1, "MANZI", "Mike", "mike@gmail.com");
+        when(studentServiceMock.getById(student.getId())).thenReturn(student);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/api/students/1")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc
+                .perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":1,\"firstName\": \"MANZI\",\"lastName\": \"Mike\",\"email\": \"mike@gmail.com\"}"))
+                .andReturn();
+    }
+
 }
