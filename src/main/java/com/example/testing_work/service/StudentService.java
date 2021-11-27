@@ -26,7 +26,11 @@ public class StudentService {
         return student.orElse(null);
     }
 
-    public ResponseEntity<Student> addStudent(Student student){
+    public ResponseEntity<?> addStudent(Student student){
+        if(studentRepository.existsByEmail(student.getEmail())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new APIResponse(false, "Student already registered"));
+        }
         Student s = studentRepository.save(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(s);
     }
