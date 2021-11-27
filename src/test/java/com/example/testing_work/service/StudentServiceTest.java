@@ -70,5 +70,16 @@ public class StudentServiceTest {
 
     }
 
+    @Test
+    public void updateStudent_emailExists(){
+        UpdateStudentDto dto = new UpdateStudentDto("Miley","Cyrus","avamax@gmail.com");
+        Student student = new Student(104,"Ava","Max","avamax@gmail.com");
+        when(studentRepositoryMock.existsByEmail(dto.getEmail())).thenReturn(true);
+        ResponseEntity<?> updatedStudent = studentService.updateStudent(104,dto);
+        assertEquals(404,updatedStudent.getStatusCodeValue());
+
+
+    }
+
 
 }
