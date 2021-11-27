@@ -64,4 +64,21 @@ public class StudentControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void getOne_404() throws Exception{
+        Student student = new Student(1, "MANZI", "Mike", "mike@gmail.com");
+        when(studentServiceMock.getById(1)).thenReturn(null);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/api/students/1")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc
+                .perform(request)
+                .andExpect(status().isNotFound())
+                //.andExpect(content().string(""))
+                .andExpect(content().json("{\"status\":false,\"message\":\"Student not found\"}"))
+                .andReturn();
+    }
+
 }
