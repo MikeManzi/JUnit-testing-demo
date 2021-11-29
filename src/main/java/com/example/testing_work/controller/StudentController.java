@@ -37,14 +37,32 @@ public class StudentController {
 
    @PostMapping("/new")
     public ResponseEntity<?> saveStudent(@Valid Student student){
-       return studentService.addStudent(student);
+       if(studentService.existsByEmail(student.getEmail())){
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                   .body(new APIResponse(false, "Student already registered"));
+       }
+       Student s = studentService.addStudent(student);
+       return ResponseEntity.status(HttpStatus.CREATED).body(s);
    }
 
 
    @PutMapping("/{id}")
     public ResponseEntity<?> updateStudent(@PathVariable(name = "id") int id,
                                            @Valid UpdateStudentDto dto){
-       return studentService.updateStudent(id, dto);
+       Student student = studentService.getById(id);
+       if(student != null){
+           if(studentService.existsByEmail(dto.getEmail())
+                   && !(student.getEmail().equalsIgnoreCase(dto.getEmail()))){
+               return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                       .body(new APIResponse(false,"Student already registered"));
+           }
+           Student updatedStudent = studentService.updateStudent(id, dto);
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(updatedStudent);
+       }
+
+       return ResponseEntity.status(HttpStatus.NOT_FOUND)
+               .body(new APIResponse(false,"Student Not found"));
+
    }
 
    @DeleteMapping("/{id}")

@@ -26,33 +26,22 @@ public class StudentService {
         return student.orElse(null);
     }
 
-    public ResponseEntity<?> addStudent(Student student){
-        if(studentRepository.existsByEmail(student.getEmail())){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new APIResponse(false, "Student already registered"));
-        }
-        Student s = studentRepository.save(student);
-        return ResponseEntity.status(HttpStatus.CREATED).body(s);
+    public Student addStudent(Student student){
+
+        return studentRepository.save(student);
     }
 
-    public ResponseEntity<?> updateStudent(int id, UpdateStudentDto dto){
+    public Student updateStudent(int id, UpdateStudentDto dto){
         Optional<Student> findById = studentRepository.findById(id);
 
         if(findById.isPresent()){
             Student student = findById.get();
-            if(studentRepository.existsByEmail(dto.getEmail())
-                    && !(student.getEmail().equalsIgnoreCase(dto.getEmail()))){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new APIResponse(false,"Student already registered"));
-            }
             student.setFirstName(dto.getFirstName());
             student.setLastName(dto.getLastName());
             student.setEmail(dto.getEmail());
-            studentRepository.save(student);
-            return ResponseEntity.status(HttpStatus.CREATED).body(student);
+            return studentRepository.save(student);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new APIResponse(false,"No student with that id"));
+        return null;
     }
 
     public ResponseEntity<?> deleteStudent(int id){
@@ -66,5 +55,9 @@ public class StudentService {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new APIResponse(false, "No student with that id"));
+    }
+
+    public boolean existsByEmail(String email){
+        return studentRepository.existsByEmail(email);
     }
 }
