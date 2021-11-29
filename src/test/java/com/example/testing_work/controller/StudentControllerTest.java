@@ -109,7 +109,7 @@ public class StudentControllerTest {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/api/students/new")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content("{\"firstName\": \"Kaisa\",\"lastName\": \"ubufu\",\"email\": \"so@gmail.com\"}");
+                .content(asJsonString(new Student(1, "Kaisa","ubufu", "so@gmail.com")));
 
         mockMvc.perform(request)
                 .andExpect(status().isCreated())
