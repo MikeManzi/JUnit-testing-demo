@@ -57,7 +57,7 @@ public class StudentController {
                        .body(new APIResponse(false,"Student already registered"));
            }
            Student updatedStudent = studentService.updateStudent(id, dto);
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(updatedStudent);
+           return ResponseEntity.status(HttpStatus.CREATED).body(updatedStudent);
        }
 
        return ResponseEntity.status(HttpStatus.NOT_FOUND)

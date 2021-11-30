@@ -1,5 +1,6 @@
 package com.example.testing_work.controller;
 
+import com.example.testing_work.dto.UpdateStudentDto;
 import com.example.testing_work.model.Student;
 import com.example.testing_work.service.StudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,25 +82,25 @@ public class StudentControllerTest {
                 .andReturn();
     }
 
-//    @Test
-//    public void updateStudent_success() throws Exception{
-//        UpdateStudentDto dto = new UpdateStudentDto( "firstName2", "lastName2", "email2@mail.com");
-//        Student updatedStudent = new Student(4, "firstName2", "lastName2", "emassil2@mail.com");
-//        Student student = new Student(4, "MANZI", "Mike", "mike@gmail.com");
-//        when(studentServiceMock.getById(4)).thenReturn(student);
-//        when(studentServiceMock.updateStudent(anyInt(),any(UpdateStudentDto.class))).thenReturn(updatedStudent);
-//
-//        mockMvc.perform( MockMvcRequestBuilders
-//                        .put("/api/students/{id}", 4)
-//                        .content(asJsonString(new UpdateStudentDto( "firstName2", "lastName2", "emassil2@mail.com")))
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                        .andExpect(status().isCreated())
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("firstName2"))
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("lastName2"))
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("emassil2@mail.com"));
-//
-//    }
+    @Test
+    public void updateStudent_success() throws Exception{
+        Student student = new Student(4, "MANZI", "Mike", "mike@gmail.com");
+        UpdateStudentDto dto = new UpdateStudentDto( "firstName2", "lastName2", "email2@mail.com");
+        Student updatedStudent = new Student(4, "firstName2", "lastName2", "emassil2@mail.com");
+        when(studentServiceMock.getById(4)).thenReturn(student);
+        when(studentServiceMock.updateStudent(student.getId(),dto)).thenReturn(updatedStudent);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .put("/api/students/{id}", 4)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(" {\"firstName\":\"firstName2\",\"lastName\": \"lastName2\",\"email\":\"semail2@mail.com\"}"));
+
+        mockMvc.perform(request)
+                .andExpect(status().isCreated())
+                .andReturn();
+    }
+
 
     @Test
     public void addStudent_success() throws Exception{
